@@ -61,6 +61,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   async storeFile(event: Event) {
     // -- if ffmpeg hasn't load yet return
     if (!this.ffmpegService.isReady) return;
+    if (this.isGeneratingScreenshots) {
+      this.alertMessage = "you can't upload video while generating frames";
+      return;
+    }
     // -- set properties
     this.isFileType = true;
     this.isDragover = false;
@@ -99,10 +103,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.seconds = Number(this.player?.currentTime()!.toString().split('.')[0]);
     this.player?.pause();
     const currDur = convertSeconds(this.seconds);
+    // -- check if remaining seconds enough
+    const remainSeconds = Number(
+      this.player?.remainingTime()!.toString().split('.')[0]
+    );
+    if (remainSeconds < 5) {
+      this.alertMessage = 'the remaining time must be more then 5 seconds';
+      return;
+    }
     // -- if no file or second == 0
     if (!this.file || !this.seconds) {
-      this.alertMessage =
-        'Please drop a video to start generating screenshots.';
+      if (!this.seconds) {
+        this.alertMessage = 'play the video at least 1 second';
+      } else {
+        this.alertMessage =
+          'Please drop a video to start generating screenshots.';
+      }
       return;
     }
     // -- reset screenshots if generate again
@@ -111,6 +127,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.isGeneratingScreenshots = true;
     // -- generate screenshots
+    this.alertMessage = 'generating...';
     this.screenshots = await this.ffmpegService.generateScreenshots(
       this.file,
       currDur
