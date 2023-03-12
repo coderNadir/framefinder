@@ -1,4 +1,4 @@
-<div class="h-screen grid place-content-center bg-slate-100 px-6">
+<div class="h-screen grid place-content-center bg-slate-100 p-6 h-fit">
   <!-- app name -->
   <h1 class="mx-auto text-3xl lg:text-8xl font-extrabold mb-6 text-slate-600">
     <p class="inline-block first-letter:capitalize first-letter:text-green-400">
@@ -50,13 +50,13 @@
         preload="none"
         controls
         #videoPlayer
-        class="video-js vjs-theme-forest"
+        class="video-js vjs-theme-city"
         [ngClass]="{
           hidden: !isVideoInitialized
         }"
       ></video>
     </div>
-    <div class="mt-6">
+    <div class="mt-6 mx-auto">
       <!-- file -->
       <input
         type="file"
@@ -64,7 +64,7 @@
         id="img"
         accept=".mp4"
         (change)="storeFile($event)"
-        class="file:mx-4 outline-none m-2 file:px-4 file:py-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:italic file:bg-white file:text-green-400 hover:file:bg-green-400 hover:file:text-white file:hover:shadow-lg file:hover:ring-2 file:hover:ring-white transition text-transparent"
+        class="file:mx-4 outline-none mb-6 m-2 file:px-4 file:py-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:italic file:bg-white file:text-green-400 hover:file:bg-green-400 hover:file:text-white file:hover:shadow-lg file:hover:ring-2 file:hover:ring-white transition text-transparent"
       />
       <!-- download button -->
       <button
